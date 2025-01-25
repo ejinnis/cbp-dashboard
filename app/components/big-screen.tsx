@@ -204,7 +204,7 @@ const BigScreen: React.FC<BigScrenProps> = ({ teams, teamsData }) => {
             domain={[(min: unknown) => (isFinite(Number(min)) ? min : 0), 100]}
             style={{ fontFamily: "Mono45 Headline", fontWeight: 300 }}
           />
-          <BetterTooltip content={(props) => <ScoreHistoryTooltip {...props} />} />
+          <BetterTooltip content={(props: any) => <ScoreHistoryTooltip {...props} />} />
 
           <Legend
             margin={{

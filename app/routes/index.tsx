@@ -61,7 +61,7 @@ const Index: React.FC = () => {
               <TextInput
                 className="w-32"
                 label="ID#"
-                placeholder="15-0000"
+                placeholder="17-0000"
                 maxLength={7}
                 value={teamToAddId}
                 onChange={(v) => {
