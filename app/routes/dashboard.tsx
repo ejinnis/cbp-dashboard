@@ -56,7 +56,7 @@ const Dashboard: React.FC = () => {
         }
 
         teamData.images.forEach((image) => {
-          if (image.name !== null && rtl[teamId][image.name]?.runtime !== image.runtime) {
+          if (image.name !== null && rtl[teamId][image.name]?.runtime !== parseInt(image.runtime, 10)) {
             rtl[teamId][image.name] = {
               runtime: image.runtime,
               since: time,

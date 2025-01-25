@@ -37,7 +37,7 @@ export interface Ranking {
 
 export interface Image {
   name: OS | null;
-  runtime: number; // Converted from string to number (seconds)
+  runtime: string; // Converted from string to number (seconds)
   issues: { found: number; remaining: number };
   penalties: number;
   score: number;
@@ -120,7 +120,7 @@ export function isStopped(data: TeamInfoResponse[string], teamRtl: RuntimeLog[st
     (imageRtl &&
       image &&
       data?.updated &&
-      imageRtl.runtime === image?.runtime &&
+      imageRtl.runtime === parseRuntime(image?.runtime) &&
       differenceInMinutes(parseISO(data.updated), imageRtl.since) > 1) ?? 
     false
   );
