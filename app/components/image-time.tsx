@@ -23,7 +23,7 @@ export const ImageTime: React.FC<ImageTimeProps> = ({ runtime, stopped = false, 
       delay={500}
       active={isSet && runtime! >= 345 && !stopped}
     >
-      {isSet ? ~~(runtime! / 60) + ":" + (runtime! % 60).toString().padStart(2, "0") : "--:--"}
+      {isSet ? ~~(runtime! / 3600) + ":" + Math.round(((runtime! % 3600)/60)).toString().padStart(2, "0") : "--:--"}
     </Alternate>
   );
 };

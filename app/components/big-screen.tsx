@@ -10,7 +10,7 @@ import Timeout from "smart-timeout";
 import { DashboardContext } from "~/routes/dashboard";
 import { useLSBigScreenSlideTime } from "~/utils/local-storage";
 import type { Team, TeamInfoResponse } from "~/utils/processing";
-import { isStopped } from "~/utils/processing";
+import { isStopped, parseRuntime } from "~/utils/processing";
 import { imageDisplayOrder } from "~/utils/processing";
 import { formatPercentile, OS, prepareHistory } from "~/utils/processing";
 import AnimatedNumber from "./animated-number";
@@ -306,7 +306,7 @@ const BigScreen: React.FC<BigScrenProps> = ({ teams, teamsData }) => {
                     {key}
                     <ImageTime
                       className="font-m45 font-light min-w-24 ml-auto flex items-center justify-center text-3xl rounded"
-                      runtime={image?.runtime}
+                      runtime={image?.runtime ? parseRuntime(image.runtime) : undefined}
                       stopped={
                         displayedTeamSlide &&
                         isStopped(

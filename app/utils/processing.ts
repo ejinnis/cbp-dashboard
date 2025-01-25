@@ -62,6 +62,7 @@ export interface TeamInfoResponse {
 
 export function parseRuntime(runtime: string): number {
   const [hours, minutes, seconds] = runtime.split(":").map(Number);
+  console.log(hours * 3600 + minutes * 60 + seconds);
   return hours * 3600 + minutes * 60 + seconds;
 }
 
@@ -113,17 +114,16 @@ export function getOrdinal(n: number) {
   const v = n % 100;
   return s[(v - 20) % 10] || s[v] || s[0];
 }
-export function isStopped(data: TeamInfoResponse[string], teamRtl: RuntimeLog[string], image: Image | null) {
+export function isStopped(data: TeamInfoResponse[string], teamRtl: RuntimeLog[string], image: Image | null): boolean | undefined {
   const imageRtl = image?.name && teamRtl ? teamRtl[image.name] : undefined;
 
+  if (!imageRtl || !image || !data?.updated) {
+    return undefined;
+  }
+
   return (
-    (imageRtl &&
-      image &&
-      data?.updated &&
-      imageRtl.runtime === parseRuntime(image?.runtime) &&
-      differenceInMinutes(parseISO(data.updated), imageRtl.since) > 1) ?? 
-    false
+    imageRtl.runtime === parseRuntime(image?.runtime) &&
+    differenceInMinutes(parseISO(data.updated), imageRtl.since) > 1
   );
 }
-
 export const imageDisplayOrder = [OS.Windows, OS.Server, OS.Linux];

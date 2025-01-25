@@ -3,7 +3,7 @@ import React, { Fragment, useContext, useMemo } from "react";
 import { useRecoilState } from "recoil";
 import { DashboardContext } from "~/routes/dashboard";
 import type { Team, TeamInfoResponse } from "~/utils/processing";
-import { imageDisplayOrder } from "~/utils/processing";
+import { imageDisplayOrder, parseRuntime } from "~/utils/processing";
 import type { OS } from "~/utils/processing";
 import { getTotalScore, isStopped } from "~/utils/processing";
 import AnimatedNumber from "./animated-number";
@@ -63,7 +63,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, data }) => {
                 <div className="min-w-12 text-center flex flex-col">
                   <ImageTime
                     className="text-sm"
-                    runtime={image?.runtime}
+                    runtime={image?.runtime ? parseRuntime(image.runtime) : undefined}
                     stopped={isStopped(data, dashboardContext.runtimeLog[team.id], image)}
                   />
                   <div style={{ lineHeight: 1 }}>

@@ -5,7 +5,7 @@ import { useUpdateEffect } from "usehooks-ts";
 import BigScreen from "~/components/big-screen";
 import Leaderboard from "~/components/leaderboard";
 import { useLSRuntimeLog, useLSTeams } from "~/utils/local-storage";
-import type { RuntimeLog, TeamInfoResponse } from "~/utils/processing";
+import { parseRuntime, type RuntimeLog, type TeamInfoResponse } from "~/utils/processing";
 
 export const DashboardContext = createContext({
   hideTeamNumbers: false,
@@ -54,11 +54,10 @@ const Dashboard: React.FC = () => {
         if (!rtl[teamId]) {
           rtl[teamId] = {};
         }
-
         teamData.images.forEach((image) => {
-          if (image.name !== null && rtl[teamId][image.name]?.runtime !== parseInt(image.runtime, 10)) {
+          if (image.name !== null && rtl[teamId][image.name]?.runtime !== parseRuntime(image.runtime)) {
             rtl[teamId][image.name] = {
-              runtime: image.runtime,
+              runtime: parseRuntime(image.runtime),
               since: time,
             };
           }
