@@ -5,9 +5,9 @@ import _ from "lodash";
 import type { CSSProperties, ReactElement, ReactNode, SVGProps } from "react";
 import React, { PureComponent } from "react";
 import type { NameType, Payload, Props as DefaultProps, ValueType } from "recharts/src/component/DefaultTooltipContent";
-import { DefaultTooltipContent } from "recharts/src/component/DefaultTooltipContent";
-import { isNumber } from "recharts/src/util/DataUtils";
-import { Global } from "recharts/src/util/Global";
+import { DefaultTooltipContent } from "recharts/es6/component/DefaultTooltipContent";
+import { isNumber } from "recharts/es6/util/DataUtils";
+import { Global } from "recharts/es6/util/Global";
 import type { AnimationTiming } from "recharts/src/util/types";
 
 const CLS_PREFIX = "recharts-tooltip-wrapper";

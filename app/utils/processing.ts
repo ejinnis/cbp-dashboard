@@ -1,4 +1,4 @@
-import { differenceInMinutes } from "date-fns";
+import { differenceInMinutes, parseISO } from "date-fns";
 
 export interface Team {
   id: string;
@@ -6,7 +6,7 @@ export interface Team {
 }
 
 export interface HistoryElement {
-  time: Date;
+  time: string; // Adjusted to match JSON
   images: Record<OS, number | null>;
 }
 
@@ -25,9 +25,9 @@ export enum Division {
 }
 
 export enum OS {
-  Windows = "Windows",
-  Server = "Server",
-  Linux = "Linux",
+  Windows = "Windows11_cp17_sf_pg",
+  Server = "Server2022_cp17_sf_pgsms",
+  Linux = "Mint21_cp17_sf_p",
 }
 
 export interface Ranking {
@@ -36,8 +36,8 @@ export interface Ranking {
 }
 
 export interface Image {
-  os: OS | null;
-  runtime: number;
+  name: OS | null;
+  runtime: number; // Converted from string to number (seconds)
   issues: { found: number; remaining: number };
   penalties: number;
   score: number;
@@ -46,16 +46,30 @@ export interface Image {
 }
 
 export interface TeamInfoResponse {
-  [teamId: string]: {
+   [teamId: string]: {
     images: Image[];
     ranking: { national: Ranking | null; state: Ranking | null };
     history: HistoryElement[];
-    updated: Date;
+    updated: string;
     location: string;
     division: Division | null;
     tier: Tier | null;
-    runtime: number;
+    runtime: string;
   } | null;
+}
+
+
+
+export function parseRuntime(runtime: string): number {
+  const [hours, minutes, seconds] = runtime.split(":").map(Number);
+  return hours * 3600 + minutes * 60 + seconds;
+}
+
+export function parseHistory(history: HistoryElement[]): HistoryElement[] {
+  return history.map((h) => ({
+    ...h,
+    time: parseISO(`2025-01-25T${h.time}:00Z`).toISOString(), // Parsing `time` to ISO format
+  }));
 }
 
 export function getTotalScore(data: TeamInfoResponse[string]) {
@@ -81,40 +95,33 @@ export function formatPercentile(ranking: Ranking) {
   return `${percentile}${getOrdinal(percentile)} Percentile`;
 }
 
-export function getOrdinal(n: number) {
-  const s = ["th", "st", "nd", "rd"];
-  const v = n % 100;
-  return s[(v - 20) % 10] || s[v] || s[0];
-}
-
 export function prepareHistory(history: HistoryElement[]) {
   if (history.length === 0) {
     return [];
   }
 
-  const newHistory = history.map((h) => ({ time: h.time.getTime(), ...h.images }));
+  const newHistory = history.map((h) => ({
+    time: new Date(h.time).getTime(),
+    ...h.images,
+  }));
 
-  // while (differenceInMinutes(newHistory[Math.max(newHistory.length - 1, 0)].time, newHistory[0].time) < 360) {
-  //   newHistory.push({
-  //     time: addMinutes(newHistory[newHistory.length - 1].time, 5).getTime(),
-  //     Windows: null,
-  //     Server: null,
-  //     Linux: null,
-  //   });
-  // }
 
   return newHistory;
 }
-
+export function getOrdinal(n: number) {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return s[(v - 20) % 10] || s[v] || s[0];
+}
 export function isStopped(data: TeamInfoResponse[string], teamRtl: RuntimeLog[string], image: Image | null) {
-  const imageRtl = image?.os && teamRtl ? teamRtl[image.os] : undefined;
+  const imageRtl = image?.name && teamRtl ? teamRtl[image.name] : undefined;
 
   return (
     (imageRtl &&
       image &&
       data?.updated &&
       imageRtl.runtime === image?.runtime &&
-      differenceInMinutes(data.updated, imageRtl.since) > 1) ??
+      differenceInMinutes(parseISO(data.updated), imageRtl.since) > 1) ?? 
     false
   );
 }

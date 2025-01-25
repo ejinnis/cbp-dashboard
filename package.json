@@ -20,6 +20,7 @@
     "@remix-run/cloudflare-workers": "^1.7.4",
     "@remix-run/react": "^1.7.4",
     "@unocss/reset": "^0.46.1",
+    "classnames": "^2.5.1",
     "cross-env": "^7.0.3",
     "date-fns": "^2.29.3",
     "framer-motion": "^7.6.4",

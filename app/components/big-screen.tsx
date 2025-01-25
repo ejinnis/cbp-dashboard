@@ -298,7 +298,7 @@ const BigScreen: React.FC<BigScrenProps> = ({ teams, teamsData }) => {
           </div>
           <div className="flex flex-col p-2 flex-grow-1 space-y-4">
             {imageDisplayOrder.map((key) => {
-              const image = displayedTeamSlide?.data?.images?.find((image) => image.os === key) ?? null;
+              const image = displayedTeamSlide?.data?.images?.find((image) => image.name === key) ?? null;
 
               return (
                 <div className="flex flex-col items-start text-coolGray-900" key={key}>

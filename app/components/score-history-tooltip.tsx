@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { forwardRef } from "react";
-import type { NameType, Payload, ValueType } from "recharts/src/component/DefaultTooltipContent";
+import type { NameType, Payload, ValueType } from "recharts/es6/component/DefaultTooltipContent";
 
 export interface ScoreHistoryTooltipProps {
   active?: boolean;

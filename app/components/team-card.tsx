@@ -17,7 +17,7 @@ interface TeamCardProps {
 
 const TeamCard: React.FC<TeamCardProps> = ({ team, data }) => {
   const getImage = (os: OS) => {
-    return data?.images.find((i) => i.os === os) ?? null;
+    return data?.images.find((i) => i.name === os) ?? null;
   };
 
   const [, setFocusedTeam] = useRecoilState(bigScreenFocusedTeamState);

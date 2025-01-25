@@ -19,16 +19,19 @@ const Dashboard: React.FC = () => {
   const [hideTeamNumbers, setHideTeamNumbers] = useState(false);
 
   useHotkeys("h", () => setHideTeamNumbers((hideTeamNumbers) => !hideTeamNumbers));
-
   useEffect(() => {
     const getData = async () => {
       if (teams.length === 0) return;
 
-      const res = await fetch("https://cbp-data.ngo.sh/info?teams=" + teams.map((t) => t.id).join(","));
+      const res = await fetch(
+        "https://cyberpatriot-scoreboard.elwoodjinnis.workers.dev/info?teams=" + teams.map((t) => t.id).join(","),
+      );
 
       if (!res.ok) return;
 
       const data = superjson.parse<TeamInfoResponse>(await res.text());
+      console.log(res, data);
+
 
       if (!data) return;
 
@@ -53,8 +56,8 @@ const Dashboard: React.FC = () => {
         }
 
         teamData.images.forEach((image) => {
-          if (image.os !== null && rtl[teamId][image.os]?.runtime !== image.runtime) {
-            rtl[teamId][image.os] = {
+          if (image.name !== null && rtl[teamId][image.name]?.runtime !== image.runtime) {
+            rtl[teamId][image.name] = {
               runtime: image.runtime,
               since: time,
             };
