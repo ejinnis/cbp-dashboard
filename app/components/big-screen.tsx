@@ -12,7 +12,7 @@ import { useLSBigScreenSlideTime } from "~/utils/local-storage";
 import type { Team, TeamInfoResponse } from "~/utils/processing";
 import { isStopped, parseRuntime } from "~/utils/processing";
 import { imageDisplayOrder } from "~/utils/processing";
-import { formatPercentile, OS, prepareHistory } from "~/utils/processing";
+import { OS, prepareHistory } from "~/utils/processing";
 import AnimatedNumber from "./animated-number";
 import { BetterTooltip } from "./better-tooltip";
 import ClientOnly from "./client-only";
@@ -287,7 +287,7 @@ const BigScreen: React.FC<BigScrenProps> = ({ teams, teamsData }) => {
           </div>
           <div className="flex flex-col p-2 flex-grow-1 space-y-4">
             {imageDisplayOrder.map((key) => {
-              const image = displayedTeamSlide?.data?.images?.find((image) => image.name === key) ?? null;
+              const image = displayedTeamSlide?.data?.images?.find((image) => image.clean === key) ?? null;
 
               return (
                 <div className="flex flex-col items-start text-coolGray-900" key={key}>

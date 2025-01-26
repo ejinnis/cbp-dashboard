@@ -30,6 +30,12 @@ export enum OS {
   Linux = "Mint21_cp17_sf_p",
 }
 
+export enum OSClean {
+  Windows = "Windows 11",
+  Server = "Server 2022",
+  Linux = "Mint 21",
+}
+
 export interface Ranking {
   place: number;
   total: number;
@@ -37,6 +43,7 @@ export interface Ranking {
 
 export interface Image {
   name: OS | null;
+  clean: OSClean | null;
   runtime: string; // Converted from string to number (seconds)
   issues: { found: number; remaining: number };
   penalties: number;
@@ -86,16 +93,6 @@ export interface RuntimeLog {
   };
 }
 
-export function getPercentile(ranking: Ranking) {
-  return Math.floor((100 * (ranking.total - ranking.place)) / ranking.total);
-}
-
-export function formatPercentile(ranking: Ranking) {
-  const percentile = getPercentile(ranking);
-
-  return `${percentile}${getOrdinal(percentile)} Percentile`;
-}
-
 export function prepareHistory(history: HistoryElement[]) {
   if (history.length === 0) {
     return [];
@@ -126,4 +123,4 @@ export function isStopped(data: TeamInfoResponse[string], teamRtl: RuntimeLog[st
     differenceInMinutes(parseISO(data.updated), imageRtl.since) > 1
   );
 }
-export const imageDisplayOrder = [OS.Windows, OS.Server, OS.Linux];
+export const imageDisplayOrder = [OSClean.Windows, OSClean.Server, OSClean.Linux];
