@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React, { Fragment, useContext, useMemo } from "react";
 import { useRecoilState } from "recoil";
 import { DashboardContext } from "~/routes/dashboard";
-import type { Team, TeamInfoResponse } from "~/utils/processing";
+import type { OSClean, Team, TeamInfoResponse } from "~/utils/processing";
 import { imageDisplayOrder, parseRuntime } from "~/utils/processing";
 import type { OS } from "~/utils/processing";
 import { getTotalScore, isStopped } from "~/utils/processing";
@@ -16,8 +16,8 @@ interface TeamCardProps {
 }
 
 const TeamCard: React.FC<TeamCardProps> = ({ team, data }) => {
-  const getImage = (os: OS) => {
-    return data?.images.find((i) => i.name === os) ?? null;
+  const getImage = (os: OSClean) => {
+    return data?.images.find((i) => i.clean === os) ?? null;
   };
 
   const [, setFocusedTeam] = useRecoilState(bigScreenFocusedTeamState);
