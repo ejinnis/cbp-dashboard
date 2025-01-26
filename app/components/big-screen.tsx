@@ -153,7 +153,7 @@ const BigScreen: React.FC<BigScrenProps> = ({ teams, teamsData }) => {
 
   const displayedRanking = useMemo(() => {
     return Object.entries({
-      National: displayedTeamSlide?.data?.ranking.national,
+      //National: displayedTeamSlide?.data?.ranking.national,
       State: displayedTeamSlide?.data?.ranking.state,
     }).map(([name, ranking], i) => (
       <Fragment key={name}>
@@ -168,19 +168,8 @@ const BigScreen: React.FC<BigScrenProps> = ({ teams, teamsData }) => {
               </span>
             ) : undefined}
           </div>
-          <div className="font-m45 text-3xl font-light">
-            <span className="text-5xl font-normal">
-              <AnimatedNumber number={ranking?.place ?? 0} color={false} />
-            </span>
-            /<AnimatedNumber number={ranking?.total ?? 0} color={false} />
-          </div>
-          <div className="text-gray-700">
-            <TextTransition inline>
-              <span key={displayedTeamSlide?.team.id}>{ranking ? formatPercentile(ranking) : "Rank Unavailable"}</span>
-            </TextTransition>
-          </div>
         </div>
-        {i % 2 === 0 ? <div className="h-1/3 mx-3 border-l border-gray-300"></div> : undefined}
+      
       </Fragment>
     ));
   }, [displayedTeamSlide]);
